@@ -12,4 +12,11 @@ public class BookAuthorServerService extends BookAuthorServiceGrpc.BookAuthorSer
                 .findFirst().ifPresent(responseObserver::onNext);
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void getBooksByAuthor(Author request, StreamObserver<Book> responseObserver) {
+        TempDb.getBooksFromTempDb().stream().filter(book -> book.getAuthorId() == request.getAuthorId())
+                .forEach(responseObserver::onNext);
+        responseObserver.onCompleted();
+    }
 }

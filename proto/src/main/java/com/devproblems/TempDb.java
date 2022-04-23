@@ -26,15 +26,15 @@ public class TempDb {
             {
                 add(Book.newBuilder().setBookId(1).setAuthorId(1).setTitle("Oliver Twist")
                         .setPrice(123.3f).setPages(345).build());
-                add(Book.newBuilder().setBookId(2).setAuthorId(2).setTitle("A Christmas Carol")
+                add(Book.newBuilder().setBookId(2).setAuthorId(1).setTitle("A Christmas Carol")
                         .setPrice(1345.3f).setPages(201).build());
-                add(Book.newBuilder().setBookId(3).setAuthorId(3).setTitle("Hamlet")
+                add(Book.newBuilder().setBookId(3).setAuthorId(2).setTitle("Hamlet")
                         .setPrice(453.6f).setPages(289).build());
-                add(Book.newBuilder().setBookId(4).setAuthorId(4).setTitle("Harry Potter")
+                add(Book.newBuilder().setBookId(4).setAuthorId(3).setTitle("Harry Potter")
                         .setPrice(950.0f).setPages(367).build());
-                add(Book.newBuilder().setBookId(5).setAuthorId(5).setTitle("The Casual Vacancy")
+                add(Book.newBuilder().setBookId(5).setAuthorId(3).setTitle("The Casual Vacancy")
                         .setPrice(83.3f).setPages(156).build());
-                add(Book.newBuilder().setBookId(6).setAuthorId(6).setTitle("Inception")
+                add(Book.newBuilder().setBookId(6).setAuthorId(4).setTitle("Inception")
                         .setPrice(358.3f).setPages(981).build());
             }
         };
