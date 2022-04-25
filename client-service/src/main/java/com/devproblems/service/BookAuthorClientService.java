@@ -3,15 +3,13 @@ package com.devproblems.service;
 import com.devproblems.Author;
 import com.devproblems.Book;
 import com.devproblems.BookAuthorServiceGrpc;
+import com.devproblems.TempDb;
 import com.google.protobuf.Descriptors;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -53,5 +51,32 @@ public class BookAuthorClientService {
 
         boolean await = countDownLatch.await(1, TimeUnit.MINUTES);
         return await ? response : Collections.emptyList();
+    }
+
+    public Map<String, Map<Descriptors.FieldDescriptor, Object>> getExpensiveBook() throws InterruptedException {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        Map<String, Map<Descriptors.FieldDescriptor, Object>> response = new HashMap<>();
+
+        StreamObserver<Book> responseObserver = asynchronousClient.getExpensiveBook(new StreamObserver<>() {
+            @Override
+            public void onNext(Book book) {
+                response.put("ExpensiveBook", book.getAllFields());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                countDownLatch.countDown();
+            }
+
+            @Override
+            public void onCompleted() {
+                countDownLatch.countDown();
+            }
+        });
+
+        TempDb.getBooksFromTempDb().forEach(responseObserver::onNext);
+        responseObserver.onCompleted();
+        boolean await = countDownLatch.await(1, TimeUnit.MINUTES);
+        return await ? response : Collections.emptyMap();
     }
 }
